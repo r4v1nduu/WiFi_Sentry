@@ -35,7 +35,6 @@ def main() -> int:
     print("WiFi Sentry - Network Security Analysis")
     print("Running scans in parallel...\n")
     
-    # Define analysis functions to run in parallel with their names
     analyses = [
         (scan_network, "Network Scan"),
         (arp_analysis, "ARP Analysis"),

@@ -2,7 +2,6 @@ import threading
 import concurrent.futures
 from typing import Dict, Any, List, Tuple, Optional
 
-# Import your existing scan modules
 from modules.basic_scan.network_scan import scan_network
 from modules.mitm_scan.arp_analyzer import arp_analysis
 from modules.mitm_scan.dns_analyzer import analyze_dns_behavior
@@ -12,27 +11,27 @@ from modules.rogue_ap_scan.ssid_analyzer import analyze_ssids
 
 class ScanManager:
     def __init__(self):
-        # Initialize scan variables
+        
         self.scan_results = {}
         self.errors = []
         self.scan_complete = False
         self.scan_thread = None
         
-        # UI components (to be set later)
+        # UI 
         self.dashboard = None
         self.details = None
     
     def set_ui_components(self, dashboard, details):
-        """Set UI components for updates"""
+        
         self.dashboard = dashboard
         self.details = details
     
     def is_scanning(self):
-        """Check if scanning is in progress"""
+        
         return self.scan_thread is not None and self.scan_thread.is_alive()
     
     def start_scan(self):
-        """Start the scan process in a separate thread"""
+        
         if self.is_scanning():
             return
         
@@ -56,7 +55,7 @@ class ScanManager:
         self.scan_thread.start()
     
     def run_with_error_check(self, analysis_func, analysis_name: str) -> Tuple[str, Dict[str, Any]]:
-        """Run an analysis function and check for errors"""
+        
         try:
             result = analysis_func()
             if isinstance(result, dict) and "error" in result:
@@ -66,8 +65,7 @@ class ScanManager:
             return f"Exception in {analysis_name}: {str(e)}", {}
     
     def run_scan(self):
-        """Execute the scan in a background thread"""
-        # Define analysis functions to run in parallel with their names
+        
         analyses = [
             (scan_network, "Network Scan", "network"),
             (arp_analysis, "ARP Analysis", "arp"),
@@ -111,23 +109,22 @@ class ScanManager:
                     self.errors.append(f"Exception processing {analysis_name} result: {str(e)}")
                     completed += 1
         
-        # Finish scan
         self.finish_scan()
     
     def update_scan_progress(self, analysis_name, tab_id, result):
-        """Update UI with individual scan progress"""
+        
         if self.details:
-            # Format and display the result in the appropriate tab
+            
             formatted_text = self.format_section(analysis_name, result)
             self.update_text_widget(tab_id, formatted_text)
     
     def update_text_widget(self, tab_id, text):
-        """Update a text widget"""
+        
         if self.details:
             self.details.update_text(tab_id, text)
     
     def finish_scan(self):
-        """Process scan results and update UI"""
+        
         self.scan_complete = True
         
         # Update status
@@ -139,7 +136,7 @@ class ScanManager:
         self.update_risk_indicators()
     
     def update_risk_indicators(self):
-        """Update all risk indicators based on scan results"""
+        
         if not self.dashboard:
             return
         
@@ -169,7 +166,7 @@ class ScanManager:
             self.dashboard.update_risk_indicator("SSID Security", ssid_info.get('status', 'Unknown'))
     
     def format_section(self, title: str, data: Dict[str, Any]) -> str:
-        """Format data for display in text widgets"""
+        
         output = [f"\n{title}:"]
         for key, value in data.items():
             # Format complex values for better readability

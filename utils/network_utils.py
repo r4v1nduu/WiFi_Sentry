@@ -20,28 +20,28 @@ CIPHER_PATTERN = re.compile(r"Cipher\s*:\s*([^\r\n]+)")
 IP_PATTERN = re.compile(r'^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$')
 CIDR_PATTERN = re.compile(r'^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})$')
 
-# Simple cache implementation
+# cache implementation
 class NetworkCache:
     def __init__(self):
         self._cache = {}
 
     def get(self, key):
-        """Get a value from the cache if it exists"""
+        # Get a value from the cache if it exists
         return self._cache.get(key)
 
     def set(self, key, value):
-        """Store a value in the cache"""
+        # Store a value in the cache
         self._cache[key] = value
 
     def clear(self, key=None):
-        """Clear the entire cache or a specific key"""
+        # Clear the entire cache or a specific key
         if key is None:
             self._cache.clear()
         elif key in self._cache:
             del self._cache[key]
 
     def has_key(self, key):
-        """Check if a key exists in the cache"""
+        # Check if a key exists in the cache
         return key in self._cache
 
 # Create a global cache instance
@@ -70,7 +70,7 @@ def cached():
     return decorator
 
 def clear_network_cache():
-    """Clear all cached network information"""
+    
     _network_cache.clear()
 
 @cached()
