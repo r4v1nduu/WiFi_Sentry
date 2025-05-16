@@ -47,12 +47,7 @@
 3. **Build EXE with PyInstaller (Windows only):**
 
    ```bash
-   pyinstaller --noconfirm --onefile --windowed --name WiFiSentry ^
-   --add-data "configs;WiFiSentry/configs" ^
-   --add-data "gui;WiFiSentry/gui" ^
-   --add-data "modules;WiFiSentry/modules" ^
-   --add-data "utils;WiFiSentry/utils" ^
-   main_gui.py
+   python -m PyInstaller --noconfirm --onefile --windowed --name WiPiScanner --icon=gui/assets/icon.ico --add-data "configs;configs" --add-data "gui;gui" --add-data "modules;modules" --add-data "utils;utils" main_gui.py
    ```
 
 4. **Find your executable:**
